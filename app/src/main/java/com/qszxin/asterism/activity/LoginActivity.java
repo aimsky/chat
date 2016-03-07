@@ -69,11 +69,9 @@ public class LoginActivity extends Activity {
                 /** 打开注册页面 */
                 if(regIntent == null)
                     regIntent = new Intent();
-                //regIntent.setFlags(Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY);
                 regIntent.setClass(getApplicationContext(), RegisterActivity.class);
                 LoginActivity.this.finish();
                 startActivity(regIntent);
-                //return true;
             }
 
         });
@@ -94,6 +92,10 @@ public class LoginActivity extends Activity {
                     //跳转到主界面
                     Intent mainIntent = new Intent();
                     mainIntent.setClass(getApplication(),MainActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("username",text_username.getText().toString());
+                    //把附加的数据放到意图当中
+                    mainIntent.putExtras(bundle);
                     LoginActivity.this.finish();  //撤销登陆页面
                     startActivity(mainIntent);
                     break;

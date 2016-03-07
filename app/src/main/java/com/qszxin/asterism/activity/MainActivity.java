@@ -38,6 +38,7 @@ import com.qszxin.asterism.R;
 
 /**
  * Created by 倾水折心 on 2016/3/4.
+ * 主界面
  */
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener { //继承OnRefreshListener的接口，实现刷新
 
@@ -58,14 +59,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     };
     private int[] tabColor;
 
+    private String username;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Bundle bundle = this.getIntent().getExtras();
+        username = bundle.get("username").toString();  //从登陆界面获取数据
+
         //toolbar设置
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle(username); //必须要在setSupportActionBar之前调用
+
         setSupportActionBar(toolbar);
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -74,10 +83,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        //
+
+
     }
-
-
 
     @Override
     public void onBackPressed() {
@@ -162,10 +170,4 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             ((ImageView) findViewById(R.id.imageView)).setImageBitmap(bitmap);// 将图片显示在ImageView里
         }
     }
-
-
-
-
-
-
 }
