@@ -20,7 +20,7 @@ import android.widget.TextView;
 import android.content.Intent;
 
 public class LoginActivity extends Activity {
-    private conServerHandler handler ;
+    private LoginHandler handler ;
     private Button btn_login;
     private EditText text_username;
     private EditText text_password;
@@ -31,7 +31,7 @@ public class LoginActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        handler = new conServerHandler();
+        handler = new LoginHandler();
 
         btn_login =(Button)findViewById(R.id.id_loginbtn);
         text_username = (EditText)findViewById(R.id.id_userNameText);
@@ -79,30 +79,22 @@ public class LoginActivity extends Activity {
         });
 
     }
-    private class conServerHandler extends Handler {
+    private class LoginHandler extends Handler {
         /**
-         * 网络连接成功。
+         * 网络登陆成功。
          */
-       // protected final int MSG_RIG_SUCCESS  = 1;
         protected final int MSG_LOGIN_SUCCESS  = 2;
-        /**
-         * 请求暂停轮播。
-         */
-        protected conServerHandler(){
-        }
+
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             switch (msg.what) {
-//                case MSG_RIG_SUCCESS:
-//                    Toast.makeText(getApplicationContext(), "注册成功", Toast.LENGTH_SHORT).show();
-//                    break;
                 case MSG_LOGIN_SUCCESS:
                     Toast.makeText(getApplicationContext(), "登录成功", Toast.LENGTH_SHORT).show();
                     //跳转到主界面
                     Intent mainIntent = new Intent();
                     mainIntent.setClass(getApplication(),MainActivity.class);
-                    LoginActivity.this.finish();
+                    LoginActivity.this.finish();  //撤销登陆页面
                     startActivity(mainIntent);
                     break;
                 default:
