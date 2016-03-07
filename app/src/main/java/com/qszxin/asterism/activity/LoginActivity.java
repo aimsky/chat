@@ -1,0 +1,113 @@
+package com.qszxin.asterism.activity;
+
+/**
+ * Created by 倾水折心 on 2016/3/2.
+ */
+import android.app.Activity;
+import android.os.Bundle;
+import com.qszxin.asterism.R;
+import com.qszxin.asterism.api.SmackTool;
+
+
+import android.os.Message;
+
+import android.os.Handler;
+import android.view.View;
+import android.widget.Toast;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.content.Intent;
+
+public class LoginActivity extends Activity {
+    private conServerHandler handler ;
+    private Button btn_login;
+    private EditText text_username;
+    private EditText text_password;
+    private TextView btn_reg;
+    private Intent regIntent = null;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
+
+        handler = new conServerHandler();
+
+        btn_login =(Button)findViewById(R.id.id_loginbtn);
+        text_username = (EditText)findViewById(R.id.id_userNameText);
+        text_password= (EditText)findViewById(R.id.id_passwdText);
+        btn_reg = (TextView)findViewById(R.id.id_regbtn);
+
+        final SmackTool st = new SmackTool();
+
+        //登陆按钮监听
+        btn_login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new Thread() {
+                    @Override
+                    public void run() {
+                        /** 建立连接 */
+                        try {
+                            if (st.login(text_username.getText().toString(), text_password.getText().toString())) {
+                                handler.sendEmptyMessage(handler.MSG_LOGIN_SUCCESS); //登陆成功，传递消息
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        //return true;
+                    }
+                }.start();
+            }
+        });
+
+        //注册按钮监听
+        btn_reg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                /** 打开注册页面 */
+                if(regIntent == null)
+                    regIntent = new Intent();
+                //regIntent.setFlags(Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY);
+                regIntent.setClass(getApplicationContext(), RegisterActivity.class);
+                LoginActivity.this.finish();
+                startActivity(regIntent);
+                //return true;
+            }
+
+        });
+
+    }
+    private class conServerHandler extends Handler {
+        /**
+         * 网络连接成功。
+         */
+       // protected final int MSG_RIG_SUCCESS  = 1;
+        protected final int MSG_LOGIN_SUCCESS  = 2;
+        /**
+         * 请求暂停轮播。
+         */
+        protected conServerHandler(){
+        }
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+//                case MSG_RIG_SUCCESS:
+//                    Toast.makeText(getApplicationContext(), "注册成功", Toast.LENGTH_SHORT).show();
+//                    break;
+                case MSG_LOGIN_SUCCESS:
+                    Toast.makeText(getApplicationContext(), "登录成功", Toast.LENGTH_SHORT).show();
+                    //跳转到主界面
+                    Intent mainIntent = new Intent();
+                    mainIntent.setClass(getApplication(),MainActivity.class);
+                    LoginActivity.this.finish();
+                    startActivity(mainIntent);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+}
