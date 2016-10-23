@@ -17,7 +17,7 @@ import com.qszxin.asterism.R;
 import com.qszxin.asterism.api.SmackTool;
 import java.util.Map;
 /**
- * Created by 倾水折心 on 2016/3/2.
+ * Created by wubo on 2016/3/2.
  */
 public class RegisterActivity extends Activity {
 
@@ -101,8 +101,13 @@ public class RegisterActivity extends Activity {
             switch (msg.what) {
                 case MSG_REG_SUCCESS:
                     Toast.makeText(getApplicationContext(), "注册成功", Toast.LENGTH_SHORT).show();
+
                     //跳转到主界面
                     Intent mainIntent = new Intent();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("username",text_username.getText().toString());
+                    //把附加的数据放到意图当中
+                    mainIntent.putExtras(bundle);
                     mainIntent.setClass(getApplication(),MainActivity.class);
                     RegisterActivity.this.finish();  //撤销登陆页面
                     startActivity(mainIntent);

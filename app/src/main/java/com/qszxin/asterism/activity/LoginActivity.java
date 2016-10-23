@@ -1,7 +1,7 @@
 package com.qszxin.asterism.activity;
 
 /**
- * Created by 倾水折心 on 2016/3/2.
+ * Created by wubo on 2016/3/2.
  */
 import android.app.Activity;
 import android.os.Bundle;

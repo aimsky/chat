@@ -37,7 +37,7 @@ import com.qszxin.asterism.R;
 
 
 /**
- * Created by 倾水折心 on 2016/3/4.
+ * Created by wubo on 2016/3/4.
  * 主界面
  */
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener { //继承OnRefreshListener的接口，实现刷新
